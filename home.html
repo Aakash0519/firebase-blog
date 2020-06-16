@@ -1,0 +1,115 @@
+
+  <head> <link rel="stylesheet" href="design_files/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css"></head>                               <!---------------------------------------------after blog post here------------------------>
+                <hr>
+                <br><br><br>
+                <div class="text-center bg-light text-dark">
+                    <h3>All new posts here </h3>
+                </div>
+                <hr>
+                
+                <div class="container-fluid bg-3">
+                    <div class="col-sm-12 " id="blogs">
+                        
+                    </div>
+                    
+                </div>     
+                
+                <!----------------------------------------------------------after blog end here------------------------------------->
+
+
+
+
+
+                <!------------------------------------validation and uploading of post blogs---------------------------------------------------------->
+                <script>
+                   
+
+
+///**************  ****************************************Retrive and display data from db ***************************
+                      //   // Your web app's Firebase configuration
+                      //   var firebaseConfig = {
+                      //   apiKey: "AIzaSyBzVMBlw2M2E2fs0aBblRDpKj2jxXP0D60",
+                      //   authDomain: "blogapp-a79f6.firebaseapp.com",
+                      //   databaseURL: "https://blogapp-a79f6.firebaseio.com",
+                      //   projectId: "blogapp-a79f6",
+                      //   storageBucket: "blogapp-a79f6.appspot.com",
+                      //   messagingSenderId: "407135533851",
+                      //   appId: "1:407135533851:web:6df802c2d7060ea27531be",
+                      //   measurementId: "G-87YDDZFJQ8"
+                      // };
+                     
+                      //   // Initialize Firebase
+                      //   firebase.initializeApp(firebaseConfig);
+                      //   firebase.auth.Auth.Persistence.LOCAL;
+                                
+
+
+
+                    var dbBlogs = firebase.database().ref().child("Blogs").orderByChild("counter");
+                    
+                    dbBlogs.on("value", function(blogs)
+                        {
+                            if(blogs.exists())
+                            {
+                                var blogsHtml = " ";
+                                blogs.forEach(function(singleBlog)
+                                    {
+                                        // counter = counter +1;
+
+
+                                        blogsHtml +=  "<div class='jumbotron bg-light text-dark border border-dark'>";
+
+                                            blogsHtml +=  "<div ><img width=100% height = 100% src=' ";
+                                                blogsHtml+=singleBlog.val().image;
+                                            blogsHtml +=  "'/></div> <br>";
+
+                                            blogsHtml +=  "<div class='row'>";
+                                                blogsHtml += "<div class='col-sm-5'><p style='color:grey;'>"
+                                                            + "Published By : " + singleBlog.val().userName
+                                                            +"</p> </div>" +
+
+                                                             "<div class='col-sm-3'><p style='color:grey;'>"
+                                                            + "Time : " + singleBlog.val().time
+                                                            +"</p> </div>" +
+
+                                                            "<div class='col-sm-4'><p style='color:grey; margin-left: 7x`5px;'>"
+                                                            + "Date : " +singleBlog.val().date
+                                                            +"</p> </div>"
+                                                            ;
+                                            blogsHtml +=  "</div> <br>";
+
+                                            blogsHtml +=  "<div style='text-align:justify; color : black;'>";
+                                                blogsHtml+=singleBlog.val().desc;
+                                            blogsHtml +=  "</div> <br>";
+
+                                             blogsHtml +=  "<div class='row'>";
+                                                 blogsHtml += "<div class='col-sm-2'><button  id='like'>"
+                                                 + "<i class='zmdi zmdi-thumb-up'> Like <span id='noOfLike'>0<span>"
+                                                 +"</i></button></div>"
+
+                                                 +"<div class='col-sm-2'><button>"
+                                                 + "<i class='zmdi zmdi-thumb-down'></i> Dislike</button></div>"
+
+                                                 +"<div class='col-sm-2'><button  id='comments'>"
+                                                 + "<i class='zmdi zmdi-code'></i> Comments</button></div>"
+
+                                                +"<div class='col-sm-2'><button>"
+                                                 + "<i class='zmdi zmdi-share'></i> Share</button></div>"
+
+                                                 +"<div class='col-sm-2'><button>"
+                                                 + "<i class='zmdi zmdi-bookmark'></i> Bookmark</button></div>"
+
+                                                 +"<div class='col-sm-2'><button>"
+                                                 + "<i class='zmdi zmdi-settings zmdi-hc-spin'></i> Edit post</button></div>"                                              
+
+                                             blogsHtml +=  "</div>";
+                                        blogsHtml +=  "</div>"
+                                    });
+                                $("#blogs").html(blogsHtml);
+                            }
+                        });
+
+///******************************************************Retrive and display data from db ends here***************************
+                
+                </script>
+                <!--validation and uploading of post blogs ends here --->

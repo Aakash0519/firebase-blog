@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+   <head>
+        <title>Home</title>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script
+  src="https://code.jquery.com/jquery-3.5.0.js"
+  integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
+  crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            
+        
+        <link rel="stylesheet" href="design_files/css/sidenav.css">
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
+
+        <style type="text/css">
+          #profilepic{
+            margin-top: 100px;
+            margin-left: 300px;
+            height: 175px;
+            width: 175px;
+            border:4px double red;
+            border-radius: 60%;
+
+          }
+          #inputpic{
+            height: 100%;
+            width:100%;
+            opacity: 0;            
+          }
+          #uploadText{
+            top: -90px;
+            color: red;
+            position: relative;
+            z-index: -1;
+          }
+          #selected-image{
+            border-radius: 50%;
+            margin-top: -275px;
+            margin-left: -4px;
+            /*z-index: 100;*/
+          }
+          #displayUploadedImage{
+            border-radius: 50%;
+            margin-top: -275px;
+            margin-left: -4px;
+            z-index: 100;
+            height: 175px;
+            width: 175px;
+          }
+
+
+
+        </style> 
+    </head>
+    <body class="h-100">   
+        <nav class="navbar navbar-expand-lg bg-dark ">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav ">
+                    <li class="active">
+                        <a class="navbar-brand" style="color:whitesmoke; text-decoration-style:wavy" href="mainpage.html">
+                            Techie
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" style="color:whitesmoke;text-decoration-style:wavy;" onclick = "switchView('home.html')" >
+                            <span style="color:white;">Home</span>
+                       </a>
+                    </li>
+                    <li>
+                    <a class="nav-link" style="color:whitesmoke; text-decoration-style:wavy;" onclick = "switchView('myblogs.html')">
+                        <span style="color:white;">My blog</span>
+                    </a>
+                    </li>
+                    <li>
+                    <a class="nav-link" style="color:whitesmoke; text-decoration-style:wavy;" onclick = "switchView('newblog.html')">
+                        <span style="color:white;">New blog</span>
+                    </a>
+                    </li>
+                    
+
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                   
+                    <li>
+                        <div class="btn-group">
+                              <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Settings  <i class="zmdi zmdi-settings zmdi-hc-spin"></i> 
+                              </button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#" id="updatesettings">Update account</a>                                
+                              </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a id="btn-logout" class="nav-link" style="color:whitesmoke;text-decoration-style:wavy;" >
+                            <span style="color:white;">LOGOUT</span>
+                       </a>
+                    </li>  
+                </ul>
+            </div>
+
+           
+        </nav>
+
+
+
+<div class="primary-nav">
+
+    <button href="#" class="hamburger open-panel nav-toggle">
+
+
+</button>
+
+    <nav role="navigation" class="menu">
+
+        <a href="mainpage.html" class="logotype">Techie</a>
+
+        <div class="overflow-container">
+
+            <ul class="menu-dropdown">                            
+
+                <li id = "dashboard"><a href="#">Dashboard</a><span class="icon"><i class="fa fa-dashboard"></i></span></li>
+
+                <li class="menu-hasdropdown">
+                    <a href="#">Settings</a><span class="icon"><i class="fa fa-gear fa-spin"></i></span>
+
+                    <label title="toggle menu" for="settings">
+                    <span class="downarrow"><i class="fa fa-caret-down"></i></span>
+                    </label>
+                    <input type="checkbox" class="sub-menu-checkbox" id="settings" />
+                    <ul class="sub-menu-dropdown">
+                        <li><a href="">Profile</a></li>
+                        <li><a href="">Security</a></li>
+                        <li><a href="">Account</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#">Favourites</a><span class="icon"><i class="fa fa-heart"></i></span></li>
+
+                <li><a href="#">Messages</a><span class="icon"><i class="fa fa-envelope"></i></span></li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+
+</div>
+
+
+    
+</div>
+
+
+
+        <div id = "helloji" class="bg-light">
+             <p>  Hello...!!</p>
+             
+             <div id="nameOfUser"></div>
+         </div>
+
+        <div id="profilepic" >
+           <input type="file" id="inputpic">                               
+          <p id="uploadText">&nbsp&nbsp Upload a profile pic.</p> 
+         <img src="#" id="selected-image" width ="175" height="175" />
+         <div id = "displayOfUploadedImage"></div>
+         
+         <button id="removeprofile">X</button>
+         <button id="storeprofile">Upload</button>
+       </div> 
+
+
+
+        <div class="row h-100 bg-light">
+            <div class="col-lg-0 bg-secondary">
+                <ul class="nav flex-column">
+
+                </ul>
+            </div>
+        <div class="col-lg-12">
+            <div class="container" id="container">
+               
+            </div>                  
+
+        </div>
+        </div>
+         
+            <script src="index.js"></script> 
+            <script>
+                
+                firebase.auth().onAuthStateChanged(function(user)
+                {
+                    if(!user)
+                    {
+                        window.location.href = "index.html";
+                    }
+
+                    firebase.database().ref('Users/'+user.uid).once('value').then(function(snapshot)
+                                    {
+                                        var fName = (snapshot.val() && snapshot.val().firstName);
+                                        var sName = (snapshot.val() && snapshot.val().secondName);
+                                        var userName = fName + " " + sName;
+                                        $("#nameOfUser").html(userName);                       
+                                    });
+                
+                });
+
+                
+
+
+                $('.nav-toggle').click(function(e) {
+  
+                  e.preventDefault();
+                  $("html").toggleClass("openNav");
+                  $(".nav-toggle").toggleClass("active");
+
+                });
+
+
+$("#profilesubmit").click(function()
+{
+    
+        
+        var picture=$("#profilepic").prop("files")[0];    
+        var databaseRef=firebase.database().ref().child("profie");
+        console.log(databaseRef);
+        databaseRef.on("value").then(function(snapshot)
+        {    
+            var user = firebase.auth().currentUser;
+             var userName;
+            var name = picture["name"];
+            
+            var dateStr = new Date().getTime();
+            var fileCompleteName=name+"_"+dateStr;
+            console.log(fileCompleteName);
+            var storageRef=firebase.storage().ref().child("profile images");
+
+            var blogStorageRef=storageRef.child(fileCompleteName);
+            console.log(blogStorageRef);
+            var uploadTask = blogStorageRef.put(picture);
+
+            uploadTask.on("state_changed",function(snapshot)
+                {                                                                   
+                    console.log(snapshot);
+                    uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL)
+                    {
+                        var profilephoto=
+                        {
+                            "image":downloadURL,
+                            "uid": user.uid,
+                        };
+                        profileref= databaseRef.push().set(profilephoto);
+                        
+                    });                                
+                },
+
+            );
+
+        });
+    });
+  
+                  $("#selected-image").hide();
+                  // $("#removeprofile").hide();
+                  // $("#storeprofile").hide();
+                  function previewImage(image_blog)
+                    {
+                        if(image_blog.files && image_blog.files[0])
+                        {
+                            var reader = new FileReader();
+                            reader.onload=function(e)
+                            {
+                                $("#selected-image").attr('src',e.target.result);   
+                                // $("#selected-image").fadeIn();
+
+                            }
+                            reader.readAsDataURL(image_blog.files[0]);          
+                            $("#selected-image").show();
+                            // $("#removeprofile").show();
+                            // $("#storeprofile").show();
+                        }
+                    }
+                    $("#inputpic").change(function()
+                    {
+                        previewImage(this);
+                    });
+                    $("#removeprofile").click(function(){
+                      $("#selected-image").hide();
+                      // $("#removeprofile").hide();
+                      // $("#storeprofile").hide();
+                    });
+                    $("#storeprofile").click(function(){
+                      var rootRef = firebase.database().ref().child("Profile Images");
+                      var userID = firebase.auth().currentUser.uid;
+                      var usersRef = rootRef.child(userID);
+
+                      var picture=$("#inputpic").prop("files")[0];
+  
+                        rootRef.once("value").then(function(snapshot)
+                        {    
+                            var name = picture["name"];
+                            
+                            var dateStr = new Date().getTime();
+                            var fileCompleteName=name+"_"+dateStr;
+
+                            var storageRef=firebase.storage().ref().child("Profile Images");
+                            var blogStorageRef=storageRef.child(fileCompleteName);
+
+                            var uploadTask = blogStorageRef.put(picture);
+
+                            uploadTask.on("state_changed",function(snapshot)
+                                {
+                                   
+                                    uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL)
+                                    {
+                                        
+                                        
+                                        var profileData=
+                                        {
+                                            "image": downloadURL
+                                        };                                        
+                                       newPostRef = usersRef.set(profileData);
+                                    });
+
+                                },
+
+                            );
+                            $("#removeprofile").hide();
+                      $("#storeprofile").hide();
+                      $("#deletebutton").show();
+
+                        });
+
+
+                    });
+                    firebase.auth().onAuthStateChanged(function(user)
+                {
+                firebase.database().ref('Profile Images/'+user.uid).once('value').then(function(snapshot)
+                                    {
+                                      console.log("uplaod success");
+                                      var snap = snapshot.key;
+                                      console.log(snap)
+                                        var blogsHtml = " ";
+                                        blogsHtml +=  "<img width=100% height = 100% id = 'displayUploadedImage'src=' ";
+                                                 blogsHtml+=snapshot.val().image;
+                                             blogsHtml +=  "'/>"; 
+                                        blogsHtml+= "<button id = 'deletebutton'class = 'btn btn-light bg-dark text-white' onclick=deleteBlogRecord('"+snapshot.key+"')>Delete  </button>";                                       
+                                        $("#displayOfUploadedImage").html(blogsHtml);   
+                                              $("#removeprofile").hide();
+                                              $("#storeprofile").hide();              
+                                    });
+              });
+
+                  $("#deletebutton").click(function(){
+                    $("#selected-image").show();
+                            $("#removeprofile").show();
+                    $("#selected-image").hide();
+                    });
+                    
+
+
+                    function deleteBlogRecord(key)
+                {
+                  console.log(key);
+                    var deleteRef = firebase.database().ref().child("Profile Images").child(key);
+
+                    return deleteRef.remove()
+                    .then(function(){
+                        console.log("Removed successfully");
+                    })
+                    .catch(function(){
+                        console.log("Error");
+                    })
+                    
+                          $("#selected-image").show();
+                            $("#removeprofile").show();
+                    $("#selected-image").hide();
+                }
+            </script>   
+    </body>
+</html>
